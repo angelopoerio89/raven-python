@@ -15,7 +15,8 @@ import logging
 import warnings
 
 from django.conf import settings as django_settings
-from django.utils.hashcompat import md5_constructor
+#from django.utils.hashcompat import md5_constructor
+from hashlib import md5
 
 logger = logging.getLogger('sentry.errors.client')
 
@@ -116,7 +117,7 @@ def get_client(client=None):
             timeout=getattr(django_settings, 'SENTRY_TIMEOUT', None),
             name=getattr(django_settings, 'SENTRY_NAME', None),
             auto_log_stacks=getattr(django_settings, 'SENTRY_AUTO_LOG_STACKS', None),
-            key=getattr(django_settings, 'SENTRY_KEY', md5_constructor(django_settings.SECRET_KEY).hexdigest()),
+            key=getattr(django_settings, 'SENTRY_KEY', md5(django_settings.SECRET_KEY).hexdigest()),
             string_max_length=getattr(django_settings, 'SENTRY_MAX_LENGTH_STRING', None),
             list_max_length=getattr(django_settings, 'SENTRY_MAX_LENGTH_LIST', None),
             site=getattr(django_settings, 'SENTRY_SITE', None),
